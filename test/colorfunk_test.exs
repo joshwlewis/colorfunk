@@ -15,5 +15,11 @@ defmodule ColorfunkTest do
     assert Colorfunk.hsl_to_rgb(310,1,0) == {0,0,0}
   end
 
-  
+  test "rgb_to_hsv" do
+    assert Colorfunk.rgb_to_hsv(0,1,0) == {120, 1, 1}
+    assert Colorfunk.rgb_to_hsv(1,1,0) == {60, 1, 1}
+    assert Colorfunk.rgb_to_hsv(1,1,1) == {0, 0, 1}
+    assert Colorfunk.rgb_to_hsv(0,0,0) == {0, 0, 0}
+  end
+
 end

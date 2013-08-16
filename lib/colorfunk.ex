@@ -26,4 +26,35 @@ defmodule Colorfunk do
     end
     {r + m, g + m, b + m}
   end
+
+  def rgb_to_hsv(0,0,0) do
+    {0,0,0}
+  end
+
+  def rgb_to_hsv(red, green, blue) do
+    value = Enum.max([red, green, blue])
+    [red, green, blue] = Enum.map([red, green, blue], fn(x) -> div x, value end)
+    max = Enum.max([red, green, blue])
+    min = Enum.min([red, green, blue])
+    saturation = max - min
+    if saturation == 0 do
+      {0, 0, value}
+    else
+      [red, green, blue] = Enum.map([red, green, blue], fn(x) -> div x - min, saturation end)
+
+      if max == red do
+        hue = 60 * (green - blue)
+        if hue < 0 do
+          hue = hue + 360
+        end
+      else 
+        if max == green do
+          hue = 120 + 60 * (blue - red)
+        else
+          hue = 240 + 60 * (red - green)
+        end
+      end
+      {hue, saturation, value}
+    end
+  end
 end
