@@ -31,6 +31,35 @@ defmodule Colorfunk do
     {0,0,0}
   end
 
+  def hsv_to_hsl(hue, 0, value) do
+    {hue,0,value}
+  end
+
+  def hsv_to_hsl(hue, saturation, 0) do
+    {hue,saturation,0}
+  end
+
+  def hsv_to_hsl(hue, saturation, value) do
+    h = (2 - saturation) * value
+    saturation = if h < 1 do
+      saturation * value / h
+    else
+      saturation * value / (2 - h)
+    end
+    value = h / 2
+    {hue, saturation, value}
+  end
+
+  def hsl_to_hsv(hue, saturation, lightness) do
+    saturation = if saturation < 0.5 do
+      saturation * lightness
+    else
+      saturation * (1 - lightness)
+    end
+    value = lightness + saturation
+    {hue, 2 * saturation / value, value}
+  end
+
   def rgb_to_hsv(red, green, blue) do
     value = Enum.max([red, green, blue])
     [red, green, blue] = Enum.map([red, green, blue], fn(x) -> div x, value end)
